@@ -79,7 +79,7 @@ public class GameBoard extends JFrame implements ActionListener{
 
 		int count = 0;
 
-		if (top < ROWS) {
+		if (top < COLUMNS) {
 			if (cells[cell.getRow()][top].getState() == State.ALIVE) {
 				count +=1;
 			}
@@ -110,20 +110,20 @@ public class GameBoard extends JFrame implements ActionListener{
 					count +=1;
 				}
 			}
-		}//End countNeighborsAlive
-
+		}
 		if (right < ROWS ) {
 			if (cells[right][cell.getColumn()].getState() == State.ALIVE){
-			}
-
-			if (left >= 0) {
-				if (cells[left][cell.getColumn()].getState() == State.ALIVE){
-					count +=1;
-				}
+				count +=1;
 			}
 		}
+		if (left >= 0) {
+			if (cells[left][cell.getColumn()].getState() == State.ALIVE){
+				count +=1;
+			}
+
+		}
 		return count;
-	}
+	}//End countNeighborsAlive
 
 	/**
 	 * For each cell in the gameboard, check for number of neighbors alive, then change states of each cell
@@ -150,7 +150,7 @@ public class GameBoard extends JFrame implements ActionListener{
 		}
 	}
 
-	
+
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand() == "Start"){

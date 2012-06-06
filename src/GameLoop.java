@@ -19,7 +19,6 @@ public class GameLoop implements Runnable{
 	public void run() {
 		this.running = true;
 		while(running){
-			System.out.println("HEJDÅ");
 			board.doTurn();
 			try{
 				Thread.sleep(200);

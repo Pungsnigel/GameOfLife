@@ -1,11 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -17,6 +19,9 @@ public class GameBoard extends JFrame implements ActionListener{
 	private JPanel gridPanel;
 	private Cell[][] cells;
 	private GameLoop gameLoop;
+	
+	private JLabel generations;
+	private int turnNr;
 
 	public GameBoard (){
 		this.setLayout(new BorderLayout());
@@ -25,6 +30,7 @@ public class GameBoard extends JFrame implements ActionListener{
 		gridPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		this.add(gridPanel, BorderLayout.CENTER);
 		this.gridPanel.setPreferredSize(new Dimension(11*COLUMNS,11*COLUMNS));
+		
 		initCells();
 		this.add(gridPanel);
 
@@ -32,12 +38,20 @@ public class GameBoard extends JFrame implements ActionListener{
 		//Use GridPanels width and a dummy height.
 		controlPanel.setPreferredSize(new Dimension(gridPanel.getWidth(), 30));
 		this.add(controlPanel, BorderLayout.SOUTH);
-
+		
+		generations = new JLabel("Generations ");
+		controlPanel.add(generations);
+		
 		JButton start = new JButton("Start");
 		start.setActionCommand("Start");
 		start.addActionListener(this);
 		controlPanel.add(start);
 
+		JButton reset = new JButton("Reset");
+		reset.setActionCommand("Reset");
+		reset.addActionListener(this);
+		controlPanel.add(reset);
+		
 		JButton stop = new JButton("Stop");
 		stop.setActionCommand("Stop");
 		stop.addActionListener(this);
@@ -47,6 +61,8 @@ public class GameBoard extends JFrame implements ActionListener{
 		changeSpeed.setActionCommand("ChangeSpeed");
 		changeSpeed.addActionListener(this);
 		controlPanel.add(changeSpeed);
+		
+		this.turnNr = 0;
 
 		this.pack();
 		this.setVisible(true);
@@ -137,6 +153,8 @@ public class GameBoard extends JFrame implements ActionListener{
 	public void doTurn (){
 		updateNeighbors();
 		updateCells();
+		this.turnNr++;
+		this.generations.setText("Generation nr " + turnNr);
 	}
 
 	private void updateCells() {
@@ -176,6 +194,18 @@ public class GameBoard extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand() == "Start"){
 			gameLoop = new GameLoop(this);
+		}
+		else if (evt.getActionCommand() == "Reset"){
+			if (gameLoop != null){
+				gameLoop.stop();
+			}
+			for (int i = 0; i < this.ROWS; i ++){
+				for (int l = 0; l < this.COLUMNS; l ++){
+					if (this.cells[i][l].getState() == State.ALIVE){
+						this.cells[i][l].changeState();
+					}
+				}
+			}
 		}
 		else if (evt.getActionCommand() == "Stop"){
 			if (gameLoop != null){

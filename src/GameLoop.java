@@ -3,9 +3,12 @@ public class GameLoop implements Runnable{
 
 	private GameBoard board;
 	private boolean running;
+	Thread thread;
 
 	public GameLoop (GameBoard board){
 		this.board = board;
+		thread = new Thread(this);
+		thread.start();
 	}
 
 	public void stop(){
@@ -16,6 +19,7 @@ public class GameLoop implements Runnable{
 	public void run() {
 		this.running = true;
 		while(running){
+			System.out.println("HEJDÅ");
 			board.doTurn();
 			try{
 				Thread.sleep(200);

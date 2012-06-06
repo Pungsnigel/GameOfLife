@@ -62,10 +62,15 @@ public class GameBoard extends JFrame implements ActionListener{
 	}
 
 	public static void main (String [] args){
-		System.out.println("Initializing new GameBoard");
+		System.out.println("Initializing new GameBoard...");
 		new GameBoard();
 	}
 
+	/**
+	 * Given a cell in the gameboard, return the number of alive neighbors.
+	 * @param cell
+	 * @return Number of alive neighbors.
+	 */
 	private int countNeighborsAlive(Cell cell) {
 		int top = cell.getColumn() + 1;
 		int buttom = cell.getColumn() - 1;
@@ -78,7 +83,6 @@ public class GameBoard extends JFrame implements ActionListener{
 			if (cells[cell.getRow()][top].getState() == State.ALIVE) {
 				count +=1;
 			}
-
 			if (right < ROWS){
 				if (cells[right][top].getState() == State.ALIVE){
 					count+=1;
@@ -106,7 +110,7 @@ public class GameBoard extends JFrame implements ActionListener{
 					count +=1;
 				}
 			}
-		}
+		}//End countNeighborsAlive
 
 		if (right < ROWS ) {
 			if (cells[right][cell.getColumn()].getState() == State.ALIVE){
@@ -121,6 +125,10 @@ public class GameBoard extends JFrame implements ActionListener{
 		return count;
 	}
 
+	/**
+	 * For each cell in the gameboard, check for number of neighbors alive, then change states of each cell
+	 * depending on number of neighbors alive.
+	 */
 	public void doTurn (){
 		updateNeighbors();
 		updateCells();
@@ -147,8 +155,6 @@ public class GameBoard extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand() == "Start"){
 			gameLoop = new GameLoop(this);
-			gameLoop.run();
-			
 		}
 		else if (evt.getActionCommand() == "Stop"){
 			if (gameLoop != null){

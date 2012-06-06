@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -41,11 +42,15 @@ public class GameBoard extends JFrame implements ActionListener{
 		stop.setActionCommand("Stop");
 		stop.addActionListener(this);
 		controlPanel.add(stop);
+		
+		JButton changeSpeed = new JButton ("Change Speed");
+		changeSpeed.setActionCommand("ChangeSpeed");
+		changeSpeed.addActionListener(this);
+		controlPanel.add(changeSpeed);
 
 		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
 	}
 
@@ -149,6 +154,22 @@ public class GameBoard extends JFrame implements ActionListener{
 			}
 		}
 	}
+	
+	private int getSpeedInput(){
+		boolean badInput = true;
+		int newSpeed = 0;
+		while (badInput){
+			badInput = false;
+			String input = JOptionPane.showInputDialog("Specify new intervall time, in milisecs");
+			try {
+				newSpeed = Integer.parseInt(input);
+			}catch (NumberFormatException ex){
+				System.out.println("Illigal input.");
+				badInput = true;
+			}
+		}
+		return newSpeed;
+	}
 
 
 	@Override
@@ -160,6 +181,11 @@ public class GameBoard extends JFrame implements ActionListener{
 			if (gameLoop != null){
 				gameLoop.stop();
 			}
+		}
+		else if (evt.getActionCommand() == "ChangeSpeed"){
+			int newSpeed = getSpeedInput();
+			gameLoop.setSleepTime(newSpeed);
+			
 		}
 		for (int i = 0; i < this.ROWS; i ++){
 			for (int l = 0; l < this.COLUMNS; l ++){

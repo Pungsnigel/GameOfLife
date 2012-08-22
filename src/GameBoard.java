@@ -15,10 +15,12 @@ import javax.swing.WindowConstants;
 
 public class GameBoard extends JFrame implements ActionListener{
 
-	private final int ROWS = 50 ,COLUMNS = 50;
+	private final int ROWS = 100 ,COLUMNS = 100;
+	private final int cellSize = 9;
 	private JPanel gridPanel;
 	private Cell[][] cells;
 	private GameLoop gameLoop;
+	
 	
 	private JLabel generations;
 	private int turnNr;
@@ -29,7 +31,7 @@ public class GameBoard extends JFrame implements ActionListener{
 		this.gridPanel = new JPanel();
 		gridPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		this.add(gridPanel, BorderLayout.CENTER);
-		this.gridPanel.setPreferredSize(new Dimension(11*COLUMNS,11*COLUMNS));
+		this.gridPanel.setPreferredSize(new Dimension(cellSize*COLUMNS,cellSize*COLUMNS));
 		
 		initCells();
 		this.add(gridPanel);

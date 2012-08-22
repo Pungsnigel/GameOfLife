@@ -239,7 +239,7 @@ private class GameLoop implements Runnable{
 	public GameLoop (GameBoard board){
 		this.board = board;
 		thread = new Thread(this);
-		this.sleepTime = 200;
+		this.sleepTime = 100;
 		thread.start();
 	}
 
